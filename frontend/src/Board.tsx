@@ -1,38 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import "./styles/Board.css";
 import Square from "./Square";
-
-const initialBoard = [
-  "G",
-  "G",
-  "M",
-  "G",
-  "G",
-  "G",
-  "G",
-  "G",
-  "G",
-  "M",
-  "G",
-  "G",
-  "G",
-  "G",
-  "G",
-  "M",
-  "G",
-  "G",
-  "G",
-  "G",
-  "G",
-  "G",
-  "M",
-  "G",
-  "G",
-];
 
 const Board: React.FC = () => {
   const [board, setBoard] = useState<string[]>(Array(25).fill(""));
   const [revealed, setRevealed] = useState<boolean[]>(Array(25).fill(false));
+
+  useEffect(() => {
+    const fetchBoard = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/board");
+        setBoard(response.data);
+      } catch (error) {
+        console.error("Error fetching board data:", error);
+      }
+    };
+
+    fetchBoard();
+  }, []);
 
   const handleClick = (index: number) => {
     const newRevealed = [...revealed];
@@ -42,7 +28,7 @@ const Board: React.FC = () => {
     console.log(index + " " + newRevealed[index]);
 
     const newBoard = [...board];
-    newBoard[index] = initialBoard[index];
+    newBoard[index] = board[index];
     setBoard(newBoard);
   };
 
