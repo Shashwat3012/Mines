@@ -31,7 +31,7 @@ const Board: React.FC = () => {
     newBoard[index] = board[index];
     setBoard(newBoard);
 
-    console.log("Board : " + board[index]);
+    console.log(`Board has ${board[index]} at index ${index}: `);
 
     if (board[index] == "M") {
       // Implement something so that the game gets over
