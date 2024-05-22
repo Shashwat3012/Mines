@@ -25,11 +25,20 @@ const Board: React.FC = () => {
     newRevealed[index] = true;
     setRevealed(newRevealed);
 
-    console.log(index + " " + newRevealed[index]);
+    // console.log(index + " " + newRevealed[index]);
 
     const newBoard = [...board];
     newBoard[index] = board[index];
     setBoard(newBoard);
+
+    console.log("Board : " + board[index]);
+
+    if (board[index] == "M") {
+      // Implement something so that the game gets over
+
+      // On game over -> The amount betted will become 0, new board should be loaded and the total balance of the user should be updated
+      console.log("Game Over");
+    }
   };
 
   const renderSquare = (index: number) => {

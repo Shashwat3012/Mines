@@ -18,7 +18,7 @@ app.get("/", (req, res) => {
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
-  console.log(mineSquare());
+  // console.log(mineSquare());
 });
 
 /*
@@ -36,34 +36,21 @@ function mineSquare(): number {
 }
 
 // For creating the board
-const initialBoard = [
-  "G",
-  "G",
-  "M",
-  "G",
-  "G",
-  "G",
-  "G",
-  "G",
-  "G",
-  "M",
-  "G",
-  "G",
-  "G",
-  "G",
-  "G",
-  "M",
-  "G",
-  "G",
-  "G",
-  "G",
-  "G",
-  "G",
-  "M",
-  "G",
-  "G",
-];
+
+let initialBoard: string[] = new Array(25);
+
+function generateBoard(mine: number) {
+  for (var i = 0; i < 25; i++) {
+    initialBoard[i] = "G";
+  }
+
+  initialBoard[mine] = "M";
+}
+
+const mine = mineSquare();
+console.log(mine);
 
 app.get("/board", (req, res) => {
+  generateBoard(mine);
   res.json(initialBoard);
 });
