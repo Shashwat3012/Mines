@@ -20,24 +20,36 @@ const Board: React.FC = () => {
     fetchBoard();
   }, []);
 
-  const handleClick = (index: number) => {
+  const handleClick = async (index: number) => {
     const newRevealed = [...revealed];
     newRevealed[index] = true;
     setRevealed(newRevealed);
 
-    // console.log(index + " " + newRevealed[index]);
+    console.log(index + " " + newRevealed[index]);
 
-    const newBoard = [...board];
-    newBoard[index] = board[index];
-    setBoard(newBoard);
+    try {
+      const response = await axios.post("http://localhost:3000/check", {
+        index,
+      });
+      const { result } = response.data;
+      console.log("Result: " + result);
 
-    console.log(`Board has ${board[index]} at index ${index}: `);
+      const newBoard = [...board];
+      newBoard[index] = board[index];
+      setBoard(newBoard);
 
-    if (board[index] == "M") {
-      // Implement something so that the game gets over
+      console.log(`Board has ${board[index]} at index ${index}.`);
 
-      // On game over -> The amount betted will become 0, new board should be loaded and the total balance of the user should be updated
-      console.log("Game Over");
+      // setSelection(index);
+
+      if (board[index] == "M") {
+        // Implement something so that the game gets over
+
+        // On game over -> The amount betted will become 0, new board should be loaded and the total balance of the user should be updated
+        console.log("Game Over");
+      }
+    } catch (error) {
+      console.error("Error checking square:", error);
     }
   };
 
