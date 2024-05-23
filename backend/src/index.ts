@@ -11,14 +11,44 @@ const corsOptions = {
   optionSuccessStatus: 200,
 };
 app.use(cors(corsOptions));
+app.use(express.json());
 
-app.get("/", (req, res) => {
-  res.send("Hello, TypeScript with Express!");
+function helper() {
+  app.get("/", (req, res) => {
+    res.send("Hello, TypeScript with Express!");
+  });
+}
+let USER_BALANCE: number = 100;
+
+let betAmount: number;
+let count: number;
+
+app.post("/check", (req, res) => {
+  const index = req.body.index;
+  betAmount = req.body.betAmount;
+  count = req.body.count + 1;
+
+  console.log("Index at backend : " + index); // it reaches here
+  console.log("Betting Amount : " + betAmount);
+  console.log("Count : " + count);
+
+  if (index == mine) {
+    console.log("You clicked on a mine!");
+    gameOver();
+  } else {
+    multiplier();
+    const result = initialBoard[index];
+    console.log("Result: " + result);
+
+    // keep the game loop running, figure out some way
+
+    // on game over
+    // frontend me betting amount 0, balance update, and backend restart
+  }
 });
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
-  // console.log(mineSquare());
 });
 
 /*
@@ -54,3 +84,37 @@ app.get("/board", (req, res) => {
   generateBoard(mine);
   res.json(initialBoard);
 });
+
+const multiplierArray: number[] = [
+  1.03, 1.08, 1.12, 1.15, 1.18, 1.21, 1.23, 1.25, 1.27, 1.29, 1.31, 1.33, 1.35,
+  1.36, 1.37, 1.38, 1.39, 1.4, 1.41, 1.42, 1.43, 1.44, 1.45, 1.46,
+];
+
+console.log(multiplierArray[2]);
+
+// implement game over function
+function gameOver() {
+  // reduces the betting amount to directly 0 then adds this 0 to user balance 😂😂
+  betAmount = 0;
+  count = 0;
+  console.log("Game Over! Your betting amount is now : " + betAmount);
+}
+
+// implement cashout function
+function cashout() {
+  // adds all the bet and winning amount to the user balance and displays it in the frontend
+
+  USER_BALANCE += betAmount;
+}
+
+// implement multiplier function
+function multiplier() {
+  // multiplies the betting amount with the factor and passes it to frontend for displaying
+
+  betAmount *= multiplierArray[count];
+  console.log(
+    `Your amount has now become ${betAmount} which is ${multiplierArray[count]} times your bet`
+  );
+}
+
+// implement normal bet function

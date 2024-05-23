@@ -3,9 +3,10 @@ import axios from "axios";
 import "./styles/Board.css";
 import Square from "./Square";
 
-const Board: React.FC = () => {
+function Board() {
   const [board, setBoard] = useState<string[]>(Array(25).fill(""));
   const [revealed, setRevealed] = useState<boolean[]>(Array(25).fill(false));
+  const [count, setCount] = useState(-1);
 
   useEffect(() => {
     const fetchBoard = async () => {
@@ -20,24 +21,43 @@ const Board: React.FC = () => {
     fetchBoard();
   }, []);
 
-  const handleClick = (index: number) => {
+  const handleClick = async (index: number) => {
     const newRevealed = [...revealed];
     newRevealed[index] = true;
     setRevealed(newRevealed);
 
-    // console.log(index + " " + newRevealed[index]);
+    console.log(index + " " + newRevealed[index]);
 
-    const newBoard = [...board];
-    newBoard[index] = board[index];
-    setBoard(newBoard);
+    // @piyush
+    // abhi ke liye mein betting amount hardcoded daal rha hu, tujhe yaha pe user ne dala hua betting amount lana hai kaise toh karke ;)
+    let betAmount: number = 10;
+    // let count: number = -1; // like the count of gems he has clicked on in a row, so that we use multiplier accordingly in th backend
+    try {
+      console.log("Old Count : " + count);
+      setCount(count + 1);
+      console.log("New Count : " + count);
+      const response = await axios.post("http://localhost:3000/check", {
+        index,
+        betAmount,
+        count,
+      });
+      const { result } = response.data;
+      console.log("Result: " + result);
 
-    console.log(`Board has ${board[index]} at index ${index}: `);
+      const newBoard = [...board];
+      newBoard[index] = board[index];
+      setBoard(newBoard);
 
-    if (board[index] == "M") {
-      // Implement something so that the game gets over
+      console.log(`Board has ${board[index]} at index ${index}.`);
 
-      // On game over -> The amount betted will become 0, new board should be loaded and the total balance of the user should be updated
-      console.log("Game Over");
+      if (board[index] == "M") {
+        // Implement something so that the game gets over
+
+        // On game over -> The amount betted will become 0, new board should be loaded and the total balance of the user should be updated
+        console.log("Game Over");
+      }
+    } catch (error) {
+      console.error("Error checking square:", error);
     }
   };
 
@@ -60,6 +80,6 @@ const Board: React.FC = () => {
   };
 
   return <div className="board">{createBoard()}</div>;
-};
+}
 
 export default Board;
