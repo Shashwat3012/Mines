@@ -1,19 +1,19 @@
 import "./styles/App.css";
-import Board from "./Board";
+// import Board from "./Board";
 
 function App() {
   return (
     <>
-      <div className="App bg-black h-screen  text-white">
-        Sidebar
-        <form action="" className="flex flex-col">
-            <div>
-            <label htmlFor="">Bet Amount</label>
-            <input type="number" placeholder="Enter bet amount here"/>
+      <div className="App bg-black h-screen w-2/12   text-white border-">
+        
+        <form action="" className="flex flex-col gap-10 pl-10">
+            <div className="flex flex-col">
+            <label htmlFor="" className="text-left">Bet Amount</label>
+            <input type="number" className="text-gray-600" placeholder="Enter bet amount here"/>
             </div>
-            <div>
-            <label htmlFor="">Mines</label>
-            <select name="" id="">
+            <div className="flex flex-col">
+            <label htmlFor="" className="text-left">Mines</label>
+            <select name="" id="" className="text-gray-600">
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
@@ -42,7 +42,7 @@ function App() {
             </select>
             {/* <input type="" placeholder="Enter bet amount here"/> */}
             </div>
-            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            <button className="bg-green-600 hover:bg-green-500 text-white font-bold py-2 px-4 rounded">
   Place Bet
 </button>
         </form>
