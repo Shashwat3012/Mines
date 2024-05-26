@@ -8,18 +8,27 @@ function Board() {
   const [revealed, setRevealed] = useState<boolean[]>(Array(25).fill(false));
   const [count, setCount] = useState(-1);
 
-  useEffect(() => {
-    const fetchBoard = async () => {
-      try {
-        const response = await axios.get("http://localhost:3000/board");
-        setBoard(response.data);
-      } catch (error) {
-        console.error("Error fetching board data:", error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchBoard = async () => {
+  //     try {
+  //       const response = await axios.get("http://localhost:3000/board");
+  //       setBoard(response.data);
+  //     } catch (error) {
+  //       console.error("Error fetching board data:", error);
+  //     }
+  //   };
 
-    fetchBoard();
-  }, []);
+  //   fetchBoard();
+  // }, []);
+
+  const handleButtonClick = async () => {
+    try {
+      const response = await axios.get("http://localhost:3000/board");
+      setBoard(response.data);
+    } catch (error) {
+      console.error("Error fetching board data:", error);
+    }
+  };
 
   const handleClick = async (index: number) => {
     const newRevealed = [...revealed];
@@ -79,7 +88,12 @@ function Board() {
     return squares;
   };
 
-  return <div className="board">{createBoard()}</div>;
+  return (
+    <>
+      <div className="board">{createBoard()}</div>;
+      <button onClick={handleButtonClick}>Generate Board</button>
+    </>
+  );
 }
 
 export default Board;
