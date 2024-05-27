@@ -1,3 +1,4 @@
+import { useState } from "react";
 import "./styles/App.css";
 // import Board from "./Board";
 import React, { useState, useEffect } from "react";
@@ -14,17 +15,22 @@ function App() {
     }
   };
 
+  const[bettingAmount, setBettingAmount]: any = useState(0);
+  const handleSubmit = (e: any) =>{
+    e.preventDefault();
+    console.log(bettingAmount)
+  }
   return (
     <>
       <div className="App bg-black h-screen w-2/12   text-white border-">
-        <form action="" className="flex flex-col gap-10 pl-10">
+        <form action="" onSubmit={handleSubmit} className="flex flex-col gap-10 pl-10">
           <div className="flex flex-col">
             <label htmlFor="" className="text-left">
               Bet Amount
             </label>
             <input
               type="number"
-              className="text-gray-600"
+              className="text-gray-600" value={bettingAmount} onChange={(e)=>setBettingAmount(e.target.value)}
               placeholder="Enter bet amount here"
             />
           </div>

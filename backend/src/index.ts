@@ -73,6 +73,11 @@ app.post("/check", (req, res) => {
   // }
 });
 
+//Get user balance 
+app.get('/balance', (req, res) =>{
+  res.json(USER_BALANCE);
+})
+
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
