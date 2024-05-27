@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./styles/Board.css";
 import Square from "./Square";
+import bettingAmountFromSidebar from "./SideBar";
 
 function Board() {
   const [board, setBoard] = useState<string[]>(Array(25).fill(""));
@@ -39,12 +40,15 @@ function Board() {
 
     // @piyush
     // abhi ke liye mein betting amount hardcoded daal rha hu, tujhe yaha pe user ne dala hua betting amount lana hai kaise toh karke ;)
-    let betAmount: number = 10;
+
+    let betAmount: number = +bettingAmountFromSidebar;
     // let count: number = -1; // like the count of gems he has clicked on in a row, so that we use multiplier accordingly in th backend
     try {
-      console.log("Old Count : " + count);
       setCount(count + 1);
-      console.log("New Count : " + count);
+      console.log("Count : " + count);
+      console.log(
+        `Betting Amount from Board.tsx file : ${betAmount} and its type is ${typeof betAmount}.`
+      );
       const response = await axios.post("http://localhost:3000/check", {
         index,
         betAmount,

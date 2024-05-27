@@ -17,10 +17,12 @@ app.use(express.json());
 // new logic for game over and server restart
 interface GameState {
   isGameOver: boolean;
+  count: number;
 }
 
 let gameState: GameState = {
   isGameOver: false,
+  count: 0,
 };
 
 // API calls
@@ -31,16 +33,16 @@ app.get("/", (req, res) => {
 let USER_BALANCE: number = 100;
 
 let betAmount: number;
-let count: number;
+// let count: number;
 
 app.post("/check", (req, res) => {
   const index = req.body.index;
   betAmount = req.body.betAmount;
-  count = req.body.count + 1;
+  gameState.count = req.body.count + 1;
 
   console.log("Index at backend : " + index); // it reaches here
   console.log("Betting Amount : " + betAmount);
-  console.log("Count : " + count);
+  console.log("Count : " + gameState.count);
 
   gameState.isGameOver = gameOver(index, mine);
 
@@ -73,10 +75,10 @@ app.post("/check", (req, res) => {
   // }
 });
 
-//Get user balance 
-app.get('/balance', (req, res) =>{
+//Get user balance
+app.get("/balance", (req, res) => {
   res.json(USER_BALANCE);
-})
+});
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
@@ -133,7 +135,7 @@ function gameOver(index: number, mine: number): boolean {
   if (index == mine) {
     // reduces the betting amount to directly 0 then adds this 0 to user balance 😂😂
     betAmount = 0;
-    count = 0;
+    gameState.count = 0;
     console.log("Game Over! Your betting amount is now : " + betAmount);
     // newBoard();
     return true;
@@ -152,9 +154,11 @@ function cashout() {
 function multiplier() {
   // multiplies the betting amount with the factor and passes it to frontend for displaying
 
-  betAmount *= multiplierArray[count];
+  betAmount *= multiplierArray[gameState.count];
   console.log(
-    `Your amount has now become ${betAmount} which is ${multiplierArray[count]} times your bet`
+    `Your amount has now become ${betAmount} which is ${
+      multiplierArray[gameState.count]
+    } times your bet`
   );
 }
 
